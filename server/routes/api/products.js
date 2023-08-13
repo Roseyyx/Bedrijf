@@ -1,56 +1,66 @@
 const express = require('express');
-const mongodb = require('mongodb');
 const router = express.Router();
+const Product = require('../../models/product');
 
 // Create Product
 router.post('/', async (req, res) => {
-    const products = await loadProductsCollection();
-    await products.insertOne({
-        text: req.body.text,
-        createdAt: new Date()
+    const newProduct = new Product({
+        ProductName: req.body.ProductName,
+        ProductPrice: req.body.ProductPrice,
+        ProductImage: req.body.ProductImage,
+        ProductDescription: req.body.ProductDescription,
+        ProductCategory: req.body.ProductCategory,
+        ProductParts: req.body.ProductParts,
     });
-
-    res.status(201).send();
+    try {
+        const product = await newProduct.save();
+        if (!product) throw Error('Something went wrong saving the product');
+        res.status(200).json(product);
+    } catch (e) {
+        res.status(400).json({msg: e.message});
+    }
 })
 
 // Read Products
 router.get('/', async (req, res) => {
-    const products = await loadProductsCollection();
-
-    res.send(await products.find({}).toArray());
+    try {
+        const products = await Product.find();
+        if (!products) throw Error('No products');
+        res.status(200).json(products);
+    } catch (e) {
+        res.status(400).json({msg: e.message});
+    }
 });
 
 // Update Product
 router.put('/:id', async (req, res) => {
-    const products = await loadProductsCollection();
-    await products.updateOne({
-        _id: new mongodb.ObjectId(req.params.id)
-    }, {
-        $set: {
-            text: req.body.text
-        }
+    const updatedInfo = new Product({
+        ProductName: req.body.ProductName,
+        ProductPrice: req.body.ProductPrice,
+        ProductImage: req.body.ProductImage,
+        ProductDescription: req.body.ProductDescription,
+        ProductCategory: req.body.ProductCategory,
+        ProductParts: req.body.ProductParts,
     });
 
-    res.status(200).send();
+    try {
+        const product = await Product.findByIdAndUpdate(req.params.id, updatedInfo);
+        if (!product) throw Error('Something went wrong updating the product');
+        res.status(200).json({success: true});
+    } catch (error) {
+        res.status(400).json({msg: e.message, success: false});
+    }
 });
 
 // Delete Product
 router.delete('/:id', async (req, res) => {
-    const products = await loadProductsCollection();
-    await products.deleteOne({
-        _id: new mongodb.ObjectId(req.params.id)
-    });
-
-    res.status(200).send();
+    try {
+        const product = await Product.findByIdAndDelete(req.params.id);
+        if (!product) throw Error('No product found');
+        res.status(200).json({success: true});
+    } catch (e) {
+        res.status(400).json({msg: e.message, success: false});
+    }
 });
-
-async function loadProductsCollection() {
-    const client = await mongodb.MongoClient.connect
-    ('mongodb://localhost:27017/bedrijf', {
-        useNewUrlParser: true
-    });
-
-    return client.db('bedrijf').collection('products');
-}
 
 module.exports = router;
