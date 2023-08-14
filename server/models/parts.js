@@ -7,7 +7,7 @@ const PartsSchema = new mongoose.Schema({
     PartName: {type: String, required: true},
     PartPrice: {type: Number, required: true},
     PartImage: {type: String, required: true},
-    PartDescription: {type: String, required: true},
+    PartDescription: {type: String, required: false},
     PartCategory: Category.schema,
     PartDate: {type: Date, default: Date.now}
 })

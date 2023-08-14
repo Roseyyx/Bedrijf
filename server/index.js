@@ -10,7 +10,9 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const products = require('./routes/api/products');
+const parts = require('./routes/api/parts');
 app.use('/api/products', products);
+app.use('/api/parts', parts);
 
 const port = process.env.PORT || 5000;
 
