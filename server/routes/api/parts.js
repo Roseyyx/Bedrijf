@@ -24,9 +24,9 @@ router.post('/', async (req, res) => {
 // Read Part
 router.get('/', async (req, res) => {
     try {
-        const parts = await Part.find();
-        if (!parts) throw Error('No parts');
-        res.status(200).json(parts);
+        const part = await Part.find({'name': new RegExp(req.body.id, 'i')});
+        if (!part) throw Error('No part found');
+        res.status(200).json(part);
     } catch (err) {
         res.status(400).json({msg: err.message});
     }
