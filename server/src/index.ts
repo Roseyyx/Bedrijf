@@ -12,5 +12,5 @@ app.use(cors());
 const ProductRoute = require('./routes/api/ProductRoute');
 app.use('/api/products', ProductRoute);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 app.listen(port, () => console.log(`Server started on port ${port}`));

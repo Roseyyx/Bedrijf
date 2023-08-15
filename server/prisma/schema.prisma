@@ -16,6 +16,7 @@ model product {
   description String?
   image       String?
   specs       String?
+  options     String?
   price       Float
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
