@@ -49,7 +49,7 @@ export default {
 	},
 	async created() {
 		try {
-			this.products = await ProductService.getProductsByCategory("Case")
+			this.products = await ProductService.getProductsByCategory("case")
 		} catch (error) {
 			console.log(error)
 			this.error = error.message
