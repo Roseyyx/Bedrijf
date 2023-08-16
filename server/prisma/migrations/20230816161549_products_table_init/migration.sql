@@ -2,6 +2,8 @@
 CREATE TABLE `Roles` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `Roles_name_key`(`name`),
     PRIMARY KEY (`id`)
@@ -13,7 +15,8 @@ CREATE TABLE `User` (
     `name` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `password` LONGTEXT NOT NULL,
-    `roleId` INTEGER NOT NULL,
+    `roleId` INTEGER NOT NULL DEFAULT 2,
+    `token` LONGTEXT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -35,9 +38,9 @@ CREATE TABLE `categories` (
 CREATE TABLE `product` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
+    `description` LONGTEXT NULL,
     `image` VARCHAR(191) NULL,
-    `specs` VARCHAR(191) NULL,
+    `specs` JSON NULL,
     `options` JSON NULL,
     `price` DOUBLE NOT NULL,
     `categoryId` INTEGER NOT NULL,

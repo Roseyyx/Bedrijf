@@ -14,15 +14,18 @@ model Roles{
   id          Int      @id @default(autoincrement())
   name        String   @unique
   users       User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model User{
   id          Int      @id @default(autoincrement())
   name        String   @unique
   email       String   @unique
-  password    String
+  password    String   @db.LongText
   role        Roles    @relation(fields: [roleId], references: [id])
-  roleId      Int
+  roleId      Int      @default(2)
+  token       String?  @db.LongText
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -36,9 +39,9 @@ model categories{
 model product {
   id          Int      @id @default(autoincrement())
   name        String   @unique
-  description String?
+  description String?  @db.LongText
   image       String?
-  specs       String?
+  specs       Json?
   options     Json?
   price       Float
   category    categories @relation(fields: [categoryId], references: [id])

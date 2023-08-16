@@ -20,15 +20,14 @@
 				<h1>Streaming</h1>
 				<img src="@/assets/streaming.jpeg" alt="product" />
 				<p>
-					Heb je al een computer, of wil je gamen combineren met streamer/opnemen. Dan zijn deze configuraties een goede keuze. Deze computers zijn uitgerust met NVIDIA video-kaarten, voor
-					betere streaming prestaties!
+					Heb je al een computer, of wil je gamen combineren met streamen/opnemen. Dan zijn deze configuraties een goede keuze. Deze computers zijn uitgerust met Capture-cards.
 				</p>
 				<h2 class="bottom">Start vanaf <strong class="prijs">?,-</strong></h2>
 			</router-link>
 			<router-link to="Hybrid" class="product">
 				<h1>Hybride</h1>
 				<img src="@/assets/hybrid.jpg" alt="product" />
-				<p>Wil je gamen, editen en streamen dan zijn deze computers het beste. Deze computers bieden alle 3 de opties in 1!</p>
+				<p>Wil je gamen, editen, streamen en/of een compacte computer dan zijn deze computers het beste. Deze computers bieden alle mogelijke opties aan!</p>
 				<h2 class="bottom">Start vanaf <strong class="prijs">?,-</strong></h2>
 			</router-link>
 		</div>
