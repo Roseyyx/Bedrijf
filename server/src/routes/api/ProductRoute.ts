@@ -1,28 +1,39 @@
 /** @format */
 
 const router = require('express').Router()
-import { PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 import { Request, Response } from 'express'
 const prisma = new PrismaClient()
 
 // Create Product
 router.post('/', async (req: Request, res: Response) => {
-    const { name, price, description, image, options} = req.body
-    // options is a stringified array of objects
-    // ["Wit", "Zwart"]
+    const { name, price, description, image, specs, category} = req.body
+    const json = req.body.options as Prisma.JsonArray
+
 	try {
+        const Category = await prisma.categories.findUnique({
+            where: {
+                name: category
+            }
+        })
+        if (!Category) {
+            return res.status(404).json({ message: "Category not found" })
+        }
+
 		const product = await prisma.product.create({
 			data: {
 				name,
 				price,
 				description,
 				image,
-                options: JSON.parse(options)
+                specs,
+                options: json,
+                categoryId: Category.id
 			}
 		})
+
 		res.status(201).json(product)
 	} catch (error) {
-        console.log(error)
 		res.status(500).json({ message: error })
 	} finally {
 		await prisma.$disconnect()
@@ -39,6 +50,24 @@ router.get('/', async (req: Request, res: Response) => {
 	} finally {
 		await prisma.$disconnect()
 	}
+})
+
+router.get("/:category", async (req: Request, res: Response) => {
+    const { category } = req.params
+    try {
+        const products = await prisma.product.findMany({
+            where: {
+                category: {
+                    name: category
+                }
+            }
+        })
+        res.status(200).json(products)
+    } catch (error) {
+        res.status(500).json({ message: error })
+    } finally {
+        await prisma.$disconnect()
+    }
 })
 
 // Update Product
