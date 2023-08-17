@@ -15,6 +15,14 @@ export const hasPermission = async (req: any, res: any, next: any) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         req.user = decoded
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: decoded.id
+            }
+        })
+
+        if (!user || user.roleId != 1) return res.status(401).json({ message: 'Unauthorized' })
     } catch (error) {
         return res.status(500).json({ message: error })
     } finally {
