@@ -13,10 +13,12 @@ const ProductRoute = require('./routes/api/ProductRoute');
 const AdminRoute = require('./routes/api/AdminRoute');
 const RoleRoute = require('./routes/api/RoleRoute');
 const CategoryRoute = require('./routes/api/CategoryRoute');
+const OrderRoute = require('./routes/api/OrderRoute');
 app.use('/api/products', ProductRoute);
 app.use('/api/admin', AdminRoute);
 app.use('/api/roles', RoleRoute);
 app.use('/api/categories', CategoryRoute);
+app.use('/api/orders', OrderRoute);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));

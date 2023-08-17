@@ -21,7 +21,7 @@
 				<select name="" id="" v-if="product.options" v-on:change="handleChange">
 					<option :value="option" v-for="(option, index) in product.options" v-bind:item="option" v-bind:index="index" v-bind:key="option">{{ option }}</option>
 				</select>
-				<button v-on:click="addToStorage(product.id, product.price)">Selecteer</button>
+				<button id="selecteer" v-on:click="addToStorage(product.id, product.price)">Selecteer</button>
 			</div>
 		</div>
 	</div>
@@ -37,7 +37,8 @@ export default {
 			products: [],
 			error: '',
 			text: '',
-			selected: 'Zwart'
+			selected: 'Zwart',
+			geselecteerd: false
 		}
 	},
 	async created() {
@@ -51,14 +52,37 @@ export default {
 	methods: {
 		handleChange(e) {
 			this.selected = e.target.value
+			let isStorageSetup = localStorage.getItem('case')
+			if (isStorageSetup) {
+				let item = JSON.parse(localStorage.getItem('case'))
+				item.color = this.selected
+				localStorage.setItem('case', JSON.stringify(item))
+			}
 		},
 		addToStorage(id, price) {
-			let item = {
-				id: id,
-				price: price,
-				color: this.selected
+			this.geselecteerd = !this.geselecteerd
+			let buttonDOM = document.getElementById('selecteer')
+			if (this.geselecteerd) {
+				buttonDOM.innerHTML = 'Geselecteerd'
+				buttonDOM.style.backgroundColor = '#4CAF50'
+				buttonDOM.style.color = 'white'
+				buttonDOM.style.border = 'none'
+
+				let item = {
+					id: id,
+					price: price,
+					color: this.selected
+				}
+				localStorage.setItem('case', JSON.stringify(item))
+
+			} else {
+				buttonDOM.innerHTML = 'Selecteer'
+				buttonDOM.style.backgroundColor = '#00b894'
+				buttonDOM.style.color = 'white'
+				buttonDOM.style.border = 'none'
+
+				localStorage.removeItem('case')
 			}
-			localStorage.setItem('case', JSON.stringify(item))
 		}
 	}
 }

@@ -2,11 +2,13 @@
 <template>
 	<section class="gaming">
 		<div class="configurator">
+			<div class="navigation">
+				<button v-on:click="decreaseIndex()">Vorige Stap</button>
+				<button v-on:click="incrementIndex()">Volgende Stap</button>
+			</div>
 			<div class="container">
 				<CaseComponent v-if="index == 0"/>
 				<CheckoutComponent v-if="index == 1"/>
-				<button v-on:click="decreaseIndex()">Vorige Stap</button>
-				<button v-on:click="incrementIndex()">Volgende Stap</button>
 			</div>
 		</div>
 	</section>
@@ -50,6 +52,31 @@ export default {
 		max-width: 100%;
 		margin: 20px auto;
 		padding: 0 20px;
+
+		.navigation{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 20px;
+
+			button {
+				padding: 0.5rem 1rem;
+				border: 1px solid #dfe6e9;
+				border-radius: 5px;
+				background-color: #00b894;
+				color: #fff;
+				font-size: 0.9rem;
+				font-weight: 300;
+				cursor: pointer;
+				transition: all 0.5s ease-in-out;
+
+				&:hover {
+					background-color: #fff;
+					color: #00b894;
+					border: 1px solid #00b894;
+				}
+			}
+		}
 
 		.container {
 			width: 60%;
