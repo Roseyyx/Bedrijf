@@ -26,6 +26,7 @@ model User{
   role        Roles    @relation(fields: [roleId], references: [id])
   roleId      Int      @default(2)
   token       String?  @db.LongText
+  Orders      Order[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -46,6 +47,35 @@ model product {
   price       Float
   category    categories @relation(fields: [categoryId], references: [id])
   categoryId  Int
+  productsOnOrder ProductOnOrder[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ProductOnOrder{
+  product     product  @relation(fields: [productId], references: [id])
+  productId   Int
+  order       Order    @relation(fields: [orderId], references: [id])
+  orderId     Int
+  quantity    Int
+  @@id([productId, orderId])
+}
+
+model OrderStatus{
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  orders      Order[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Order{
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  products    ProductOnOrder[]
+  status      OrderStatus @relation(fields: [statusId], references: [id])
+  statusId    Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
